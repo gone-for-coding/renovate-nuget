@@ -1,0 +1,23 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:recommended",
+        ":enablePreCommit",
+        ":semanticCommits",
+        "mergeConfidence:all-badges"
+    ],
+    "customManagers": [
+        {
+            "description": "Manager to work through the custom defined version strings.",
+            "customType": "regex",
+            "fileMatch": [
+                "Dockerfile$"
+            ],
+            "matchStrings": [
+                "#\\s*renovate:\\s*datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?( registryUrl=(?<registryUrl>.*?))?\\sENV .*?_VERSION=\"(?<currentValue>.*)\"\\s",
+                "#\\s*renovate:\\s*datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?( registryUrl=(?<registryUrl>.*?))?\\s    .*?_version: \"(?<currentValue>.*)\"\\s"
+            ],
+            "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver-coerced{{/if}}"
+        }
+    ]
+}
